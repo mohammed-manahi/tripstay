@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager, Permission
 
 class UserManager(BaseUserManager):
     """
-    Customize base user manager
+    Customize base user manager to normalize email field and encrypt password field
     """
 
     def create_user(self, email, password=None, **extra_fields):
@@ -40,6 +40,7 @@ class User(AbstractUser, PermissionsMixin):
 
     objects = UserManager()
 
+    # Set username field to email for authentication
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'role']
 
