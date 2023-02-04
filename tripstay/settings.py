@@ -46,6 +46,10 @@ INSTALLED_APPS = [
     'djoser',
     # Add account app to installed apps
     'account.apps.AccountConfig',
+    # Add third-party location field to installed apps
+    'location_field.apps.DefaultConfig',
+    # Add property app to installed apps
+    'property.apps.PropertyConfig',
 ]
 
 MIDDLEWARE = [
@@ -185,4 +189,12 @@ SIMPLE_JWT = {
     'AUTH_TOKEN_CLASSES': (
         'rest_framework_simplejwt.tokens.AccessToken',
     )
+}
+
+# Location field library configuration
+LOCATION_FIELD = {
+    'provider.google.api': '//maps.google.com/maps/api/js?sensor=false',
+    'provider.google.api_key': '',
+    'provider.google.api_libraries': '',
+    'provider.google.map.type': 'ROADMAP',
 }
