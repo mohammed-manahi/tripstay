@@ -8,6 +8,13 @@ class UserManager(BaseUserManager):
     """
 
     def create_user(self, email, password=None, **extra_fields):
+        """
+        Create and save regular user with a given email and password
+        :param email:
+        :param password:
+        :param extra_fields:
+        :return:
+        """
         email = self.normalize_email(email)
         user = self.model(email=email, username=email, **extra_fields)
         user.set_password(password)
@@ -17,7 +24,11 @@ class UserManager(BaseUserManager):
 
     def create_superuser(self, email, password, **extra_fields):
         """
-        Create and saves a superuser with the given email and password.
+        Create and save a superuser with a given email and password
+        :param email:
+        :param password:
+        :param extra_fields:
+        :return:
         """
         email = self.normalize_email(email)
         user = self.model(email=email, username=email, **extra_fields)
