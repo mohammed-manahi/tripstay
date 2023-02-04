@@ -12,6 +12,8 @@ pillow = "*"
 djangorestframework = "*"
 djoser = "*"
 djangorestframework-simplejwt = "*"
+pytest = "*"
+pytest-django = "*"
 
 [dev-packages]
 
