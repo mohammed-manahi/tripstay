@@ -15,6 +15,7 @@ djangorestframework-simplejwt = "*"
 pytest = "*"
 pytest-django = "*"
 django-location-field = "*"
+django-filter = "*"
 
 [dev-packages]
 

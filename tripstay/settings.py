@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'location_field.apps.DefaultConfig',
     # Add property app to installed apps
     'property.apps.PropertyConfig',
+    # Add third-party django filter to installed apps
+    'django_filters',
 ]
 
 MIDDLEWARE = [
