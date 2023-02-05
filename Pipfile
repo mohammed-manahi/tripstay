@@ -16,6 +16,7 @@ pytest = "*"
 pytest-django = "*"
 django-location-field = "*"
 django-filter = "*"
+drf-nested-routers = "*"
 
 [dev-packages]
 
