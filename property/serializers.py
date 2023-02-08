@@ -10,7 +10,7 @@ class PropertyCategorySerializer(serializers.ModelSerializer):
 
     class Meta():
         model = PropertyCategory
-        fields = ['name', 'description', 'slug']
+        fields = ['name', 'description', 'slug', 'property_count']
 
     # Custom field that calls get property category method
     property_count = serializers.SerializerMethodField(method_name='get_property_count')

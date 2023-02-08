@@ -13,3 +13,14 @@ class CanAddOrUpdateProperty(BasePermission):
         host_user = bool(request.user and request.user.role == 'host')
         admin_user = bool(request.user and request.user.is_superuser)
         return host_user or admin_user
+
+
+class AdminOnlyActions(BasePermission):
+    """
+    Custom permission class for admin only actions
+    """
+
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return bool(request.user and request.user.is_superuser)
