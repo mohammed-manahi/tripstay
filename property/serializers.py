@@ -24,7 +24,18 @@ class PropertySerializer(serializers.ModelSerializer):
     """
     Create serializer for property model
     """
+    # Get current user as a hidden field
     owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    def validate(self, attrs):
+        """
+        Custom validation for available from and available to fields
+        :param attrs:
+        :return:
+        """
+        if attrs['available_from'] > attrs['available_to']:
+            raise serializers.ValidationError('Available to date must occur after available from date')
+        return attrs
 
     class Meta():
         model = Property
