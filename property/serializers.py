@@ -24,10 +24,10 @@ class PropertySerializer(serializers.ModelSerializer):
     """
     Create serializer for property model
     """
+    owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta():
         model = Property
-        fields = ['name', 'description', 'slug', 'host_user', 'guest_user', 'category', 'address', 'location',
+        fields = ['name', 'description', 'slug', 'owner', 'category', 'address', 'location',
                   'number_of_bedrooms', 'number_of_beds', 'number_of_baths', 'capacity_for_adults',
-                  'capacity_for_children', 'available', 'available_from', 'available_to', 'price_per_night',
-                  'cancellation_policy', 'cancellation_fee']
+                  'capacity_for_children', 'available', 'available_from', 'available_to']

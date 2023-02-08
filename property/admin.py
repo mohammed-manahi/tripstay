@@ -17,9 +17,8 @@ class PropertyAdmin(admin.ModelAdmin):
     """
     Register property model in admin site
     """
-    list_display = ['name', 'description', 'host_user', 'guest_user', 'address', 'available', 'price_per_night',
-                    'cancellation_policy']
-    list_filter = ['category', 'available', 'cancellation_policy']
+    list_display = ['name', 'description', 'owner', 'address', 'available']
+    list_filter = ['category', 'available']
 
 
 @admin.register(PropertyFeatureCategory)

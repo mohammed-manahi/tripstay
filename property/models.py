@@ -44,8 +44,7 @@ class Property(models.Model):
     name = models.CharField(max_length=250, blank=False)
     description = models.TextField()
     slug = models.SlugField(max_length=250, blank=True)
-    host_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='properties_owned')
-    guest_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='properties_rented')
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='properties_owned')
     category = models.ForeignKey(PropertyCategory, on_delete=models.CASCADE, related_name='properties')
     address = models.CharField(max_length=250)
     # Use third-party library location field for property location
@@ -58,10 +57,6 @@ class Property(models.Model):
     available = models.BooleanField()
     available_from = models.DateTimeField()
     available_to = models.DateTimeField()
-    price_per_night = models.DecimalField(max_digits=6, decimal_places=2)
-    cancellation_policy = models.CharField(max_length=50, choices=CANCELLATION_POLICY_CHOICES,
-                                           default=FREE_CANCELLATION)
-    cancellation_fee = models.DecimalField(max_digits=3, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
