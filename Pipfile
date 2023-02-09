@@ -17,6 +17,7 @@ pytest-django = "*"
 django-location-field = "*"
 django-filter = "*"
 drf-nested-routers = "*"
+model-bakery = "*"
 
 [dev-packages]
 
