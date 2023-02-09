@@ -35,14 +35,8 @@ class Property(models.Model):
     """
     Create property model
     """
-    FREE_CANCELLATION = 'Free Cancellation'
-    PAID_CANCELLATION = 'Paid Cancellation'
-    CANCELLATION_POLICY_CHOICES = [
-        (FREE_CANCELLATION, FREE_CANCELLATION),
-        (PAID_CANCELLATION, PAID_CANCELLATION)
-    ]
     name = models.CharField(max_length=250, blank=False)
-    description = models.TextField()
+    description = models.TextField(max_length=500)
     slug = models.SlugField(max_length=250, blank=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='properties_owned')
     category = models.ForeignKey(PropertyCategory, on_delete=models.CASCADE, related_name='properties')
