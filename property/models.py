@@ -39,7 +39,7 @@ class Property(models.Model):
     description = models.TextField(max_length=500)
     slug = models.SlugField(max_length=250, blank=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='properties_owned')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='properties')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='properties', max_length=500)
     address = models.CharField(max_length=250)
     # Use third-party library location field for property location
     location = PlainLocationField(based_fields=['city'], zoom=7, max_length=250)
@@ -47,7 +47,7 @@ class Property(models.Model):
     number_of_beds = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)])
     number_of_baths = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)])
     capacity_for_adults = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)])
-    capacity_for_children = models.PositiveSmallIntegerField()
+    capacity_for_children = models.PositiveSmallIntegerField(validators=[MinValueValidator(0)])
     price_per_night = models.DecimalField(max_digits=6, decimal_places=2)
     available = models.BooleanField()
     available_from = models.DateTimeField()

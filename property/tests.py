@@ -1,3 +1,7 @@
 from django.test import TestCase
+from property.models import Property
 
-# Create your tests here.
+
+class PropertyTest(TestCase):
+    def setUp(self) -> None:
+        Property.objects.create()
