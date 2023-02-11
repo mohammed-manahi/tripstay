@@ -38,7 +38,7 @@ class Property(models.Model):
     name = models.CharField(max_length=250, blank=False)
     description = models.TextField(max_length=500)
     slug = models.SlugField(max_length=250, blank=True)
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='properties_owned')
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='properties')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='properties', max_length=500)
     address = models.CharField(max_length=250)
     # Use third-party library location field for property location
@@ -77,11 +77,12 @@ class Media(models.Model):
     """
     name = models.CharField(max_length=250)
     description = models.TextField(blank=True)
-    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='property_media')
-    photo = models.ImageField(upload_to='property/photos',
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='media')
+    photo = models.ImageField(blank=True, upload_to='property/photos',
                               validators=[validate_image_size, FileExtensionValidator(['jpg', 'png', 'jpeg'])])
-    video = models.FileField(upload_to='property/videos', validators=[validate_video_size, FileExtensionValidator(
-        ['mp4', 'webm', 'mkv', 'flv', 'wmv'])])
+    video = models.FileField(blank=True, upload_to='property/videos',
+                             validators=[validate_video_size, FileExtensionValidator(
+                                 ['mp4', 'webm', 'mkv', 'flv', 'wmv'])])
 
     class Meta():
         verbose_name = 'Property Media'
@@ -95,8 +96,8 @@ class Review(models.Model):
     """
     Create property review model and associate it with many-to-one relationship with property model
     """
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_reviews')
-    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='property_reviews')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reviews')
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='reviews')
     comment = models.TextField(blank=True)
     rate = models.FloatField(blank=True, validators=[MinValueValidator(0.0), MaxValueValidator(5.0)])
     created_at = models.DateTimeField(auto_now_add=True)
