@@ -40,4 +40,4 @@ class PropertySerializer(serializers.ModelSerializer):
         model = Property
         fields = ['name', 'description', 'slug', 'owner', 'category', 'address', 'location',
                   'number_of_bedrooms', 'number_of_beds', 'number_of_baths', 'capacity_for_adults',
-                  'capacity_for_children', 'available', 'available_from', 'available_to']
+                  'capacity_for_children', 'price_per_night', 'available', 'available_from', 'available_to']

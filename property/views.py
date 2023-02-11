@@ -19,7 +19,7 @@ class PropertyViewSet(ModelViewSet):
     search_fields = ['name', 'description']
 
     # Add sorting filter fields
-    ordering_fields = ['name']
+    ordering_fields = ['name', 'price_per_night']
 
     # Set custom permission class
     permission_classes = [IsAuthenticated, CanAddOrUpdateProperty]
