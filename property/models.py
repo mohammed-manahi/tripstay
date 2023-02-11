@@ -6,7 +6,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator, FileExt
 from property.validators import validate_image_size, validate_video_size
 
 
-class PropertyCategory(models.Model):
+class Category(models.Model):
     """
     Create property category model and associate it with one-to-many relationship with property model
     """
@@ -39,15 +39,16 @@ class Property(models.Model):
     description = models.TextField(max_length=500)
     slug = models.SlugField(max_length=250, blank=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='properties_owned')
-    category = models.ForeignKey(PropertyCategory, on_delete=models.CASCADE, related_name='properties')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='properties')
     address = models.CharField(max_length=250)
     # Use third-party library location field for property location
-    location = PlainLocationField(based_fields=['city'], zoom=7)
+    location = PlainLocationField(based_fields=['city'], zoom=7, max_length=250)
     number_of_bedrooms = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)])
     number_of_beds = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)])
     number_of_baths = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)])
     capacity_for_adults = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)])
     capacity_for_children = models.PositiveSmallIntegerField()
+    price_per_night = models.DecimalField(max_digits=6, decimal_places=2)
     available = models.BooleanField()
     available_from = models.DateTimeField()
     available_to = models.DateTimeField()
@@ -70,7 +71,7 @@ class Property(models.Model):
         return self.name
 
 
-class PropertyMedia(models.Model):
+class Media(models.Model):
     """
     Create property media model and associate it with many-to-one relationship with property model
     """
@@ -90,7 +91,7 @@ class PropertyMedia(models.Model):
         return self.name
 
 
-class PropertyReview(models.Model):
+class Review(models.Model):
     """
     Create property review model and associate it with many-to-one relationship with property model
     """
@@ -113,7 +114,7 @@ class PropertyReview(models.Model):
         return self.comment
 
 
-class PropertyFeatureCategory(models.Model):
+class FeatureCategory(models.Model):
     """
     Create property feature category model and associate it with one-to-many relationship with property feature model
     """
@@ -135,14 +136,14 @@ class PropertyFeatureCategory(models.Model):
         return self.name
 
 
-class PropertyFeature(models.Model):
+class Feature(models.Model):
     """
     Create property feature model and associate it with many-to-one relationship with property model
     """
     name = models.CharField(max_length=250, blank=False)
     description = models.TextField(blank=True)
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='features')
-    feature_category = models.ForeignKey(PropertyFeatureCategory, on_delete=models.CASCADE,
+    feature_category = models.ForeignKey(FeatureCategory, on_delete=models.CASCADE,
                                          related_name='property_features')
 
     class Meta():

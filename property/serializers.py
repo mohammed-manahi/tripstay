@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from property.models import Property, PropertyCategory, PropertyMedia, PropertyFeature, PropertyFeatureCategory, \
-    PropertyReview
+from property.models import Property, Category, Media, Feature, FeatureCategory, Review
 
 
 class PropertyCategorySerializer(serializers.ModelSerializer):
@@ -9,7 +8,7 @@ class PropertyCategorySerializer(serializers.ModelSerializer):
     """
 
     class Meta():
-        model = PropertyCategory
+        model = Category
         fields = ['name', 'description', 'slug', 'property_count']
 
     # Custom field that calls get property category method

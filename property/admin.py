@@ -1,9 +1,8 @@
 from django.contrib import admin
-from property.models import Property, PropertyMedia, PropertyFeature, PropertyFeatureCategory, PropertyReview, \
-    PropertyCategory
+from property.models import Property, Media, Feature, FeatureCategory, Review, Category
 
 
-@admin.register(PropertyMedia)
+@admin.register(Media)
 class PropertyMedia(admin.ModelAdmin):
     """
     Add property media model as inline view for property model in admin site
@@ -21,7 +20,7 @@ class PropertyAdmin(admin.ModelAdmin):
     list_filter = ['category', 'available']
 
 
-@admin.register(PropertyFeatureCategory)
+@admin.register(FeatureCategory)
 class PropertyFeatureCategoryAdmin(admin.ModelAdmin):
     """
     Add property media model in admin site
@@ -30,7 +29,7 @@ class PropertyFeatureCategoryAdmin(admin.ModelAdmin):
     list_filter = ['name']
 
 
-@admin.register(PropertyFeature)
+@admin.register(Feature)
 class PropertyFeatureAdmin(admin.ModelAdmin):
     """
     Add property media model in admin site
@@ -39,7 +38,7 @@ class PropertyFeatureAdmin(admin.ModelAdmin):
     list_filter = ['name']
 
 
-@admin.register(PropertyReview)
+@admin.register(Review)
 class PropertyReviewAdmin(admin.ModelAdmin):
     """
     Add property review model in admin site
@@ -48,7 +47,7 @@ class PropertyReviewAdmin(admin.ModelAdmin):
     list_filter = ['rate']
 
 
-@admin.register(PropertyCategory)
+@admin.register(Category)
 class PropertyCategoryAdmin(admin.ModelAdmin):
     """
     Add property review model in admin site

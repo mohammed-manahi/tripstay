@@ -3,8 +3,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
-from property.models import Property, PropertyCategory, PropertyMedia, PropertyFeature, PropertyFeatureCategory, \
-    PropertyReview
+from property.models import Property, Category, Media, Feature, FeatureCategory, Review
 from property.serializers import PropertySerializer, PropertyCategorySerializer
 from property.permissions import CanAddOrUpdateProperty, AdminOnlyActions
 
@@ -56,7 +55,7 @@ class PropertyCategoryViewSet(ModelViewSet):
 
     def get_queryset(self):
         # Define property API query-set
-        return PropertyCategory.objects.prefetch_related('properties').all()
+        return Category.objects.prefetch_related('properties').all()
 
     def get_serializer_class(self):
         # Define property API serializer
