@@ -34,6 +34,11 @@ class ReviewSerializer(serializers.ModelSerializer):
         fields = ['id', 'comment', 'rate', 'user']
 
     def validate(self, attrs):
+        """
+        Custom validation to allow user review a property once only
+        :param attrs:
+        :return:
+        """
         property_id = self.context['property_id']
         user = attrs['user']
         if Review.objects.filter(property_id=property_id, user=user).exists():
@@ -42,12 +47,31 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         """
-        Override create method to allow nested route for media in property api endpoint
+        Override create method to allow nested route for review in property api endpoint
         :param validated_data:
         :return:
         """
         property_id = self.context['property_id']
         return Review.objects.create(property_id=property_id, **validated_data)
+
+
+class FeatureSerializer(serializers.ModelSerializer):
+    """
+    Create serializer for feature model
+    """
+
+    class Meta():
+        model = Feature
+        fields = ['id', 'name', 'description', 'feature_category']
+
+    def create(self, validated_data):
+        """
+        Override create method to allow nested route for feature in property api endpoint
+        :param validated_data:
+        :return:
+        """
+        property_id = self.context['property_id']
+        return Feature.objects.create(property_id=property_id, **validated_data)
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -89,13 +113,16 @@ class PropertySerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'description', 'slug', 'owner', 'category', 'address', 'location',
                   'number_of_bedrooms', 'number_of_beds', 'number_of_baths', 'capacity_for_adults',
                   'capacity_for_children', 'price_per_night', 'available', 'available_from', 'available_to',
-                  'average_rate', 'media', 'reviews']
+                  'average_rate', 'media', 'reviews', 'features']
 
     # Display property media
     media = MediaSerializer(many=True, read_only=True)
 
     # Display property reviews
     reviews = ReviewSerializer(many=True, read_only=True)
+
+    # Display property features
+    features = FeatureSerializer(many=True, read_only=True)
 
     # Custom field for average review rate
     average_rate = serializers.SerializerMethodField(method_name='get_average_rate')
@@ -111,4 +138,4 @@ class FeatureCategorySerializer(serializers.ModelSerializer):
 
     class Meta():
         model = FeatureCategory
-        fields = ['name', 'description', 'slug']
+        fields = ['id', 'name', 'description', 'slug']

@@ -12,6 +12,7 @@ router.register('feature-categories', views.FeatureCategoryViewSet, basename='fe
 property_router = routers.NestedDefaultRouter(router, 'properties', lookup='property')
 property_router.register('media', views.MediaViewSet, basename='property-media')
 property_router.register('reviews', views.ReviewViewSet, basename='property-reviews')
+property_router.register('features', views.FeatureViewSet, basename='property-features')
 
 urlpatterns = [
     # Include view set routers

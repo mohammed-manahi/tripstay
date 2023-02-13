@@ -5,7 +5,7 @@ from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
 from property.models import Property, Category, Media, Feature, FeatureCategory, Review
 from property.serializers import PropertySerializer, CategorySerializer, MediaSerializer, ReviewSerializer, \
-    FeatureCategorySerializer
+    FeatureCategorySerializer, FeatureSerializer
 from property.permissions import CanAddOrUpdateProperty, AdminOnlyActions
 
 
@@ -60,7 +60,7 @@ class CategoryViewSet(ModelViewSet):
     # Add sorting filter fields
     ordering_fields = ['name']
 
-    # Set custom permission class
+    # Set permission classes
     permission_classes = [IsAuthenticated, AdminOnlyActions]
 
     def get_queryset(self):
@@ -89,7 +89,7 @@ class MediaViewSet(ModelViewSet):
     """
     Create media view set for media model
     """
-    # Set custom permission class
+    # Set  permission classes
     permission_classes = [IsAuthenticated, CanAddOrUpdateProperty]
 
     def get_queryset(self):
@@ -118,6 +118,7 @@ class ReviewViewSet(ModelViewSet):
     """
     Create review view set for review model
     """
+    # Set permission classes
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
@@ -146,7 +147,7 @@ class FeatureCategoryViewSet(ModelViewSet):
     """
     Create feature category view set for feature category model
     """
-    # Set custom permission class
+    # Set permission classes
     permission_classes = [IsAuthenticated, AdminOnlyActions]
 
     def get_queryset(self):
@@ -169,3 +170,32 @@ class FeatureCategoryViewSet(ModelViewSet):
         :return:
         """
         return {'request': self.request}
+
+
+class FeatureViewSet(ModelViewSet):
+    """
+    Create feature view set for feature model
+    """
+    # Set permission classes
+    permission_classes = [IsAuthenticated, CanAddOrUpdateProperty]
+
+    def get_queryset(self):
+        """
+        Define feature api queryset
+        :return:
+        """
+        return Feature.objects.select_related('property').filter(property_id=self.kwargs.get('property_pk'))
+
+    def get_serializer_class(self):
+        """
+        Define feature api serializer
+        :return:
+        """
+        return FeatureSerializer
+
+    def get_serializer_context(self):
+        """
+        Define feature api context
+        :return:
+        """
+        return {'request': self.request, 'property_id': self.kwargs.get('property_pk')}
