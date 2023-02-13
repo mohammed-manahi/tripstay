@@ -102,3 +102,13 @@ class PropertySerializer(serializers.ModelSerializer):
 
     def get_average_rate(self, property):
         return property.reviews.all().aggregate(Avg('rate'))
+
+
+class FeatureCategorySerializer(serializers.ModelSerializer):
+    """
+    Create serializer for feature category model
+    """
+
+    class Meta():
+        model = FeatureCategory
+        fields = ['name', 'description', 'slug']

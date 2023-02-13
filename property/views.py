@@ -4,7 +4,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
 from property.models import Property, Category, Media, Feature, FeatureCategory, Review
-from property.serializers import PropertySerializer, CategorySerializer, MediaSerializer, ReviewSerializer
+from property.serializers import PropertySerializer, CategorySerializer, MediaSerializer, ReviewSerializer, \
+    FeatureCategorySerializer
 from property.permissions import CanAddOrUpdateProperty, AdminOnlyActions
 
 
@@ -139,3 +140,32 @@ class ReviewViewSet(ModelViewSet):
         :return:
         """
         return {'request': self.request, 'property_id': self.kwargs.get('property_pk')}
+
+
+class FeatureCategoryViewSet(ModelViewSet):
+    """
+    Create feature category view set for feature category model
+    """
+    # Set custom permission class
+    permission_classes = [IsAuthenticated, AdminOnlyActions]
+
+    def get_queryset(self):
+        """
+        Define feature category api queryset
+        :return:
+        """
+        return FeatureCategory.objects.all()
+
+    def get_serializer_class(self):
+        """
+        Define feature category api serializer
+        :return:
+        """
+        return FeatureCategorySerializer
+
+    def get_serializer_context(self):
+        """
+        Define feature category api context
+        :return:
+        """
+        return {'request': self.request}
