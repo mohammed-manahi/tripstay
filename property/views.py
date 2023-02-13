@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
 from property.models import Property, Category, Media, Feature, FeatureCategory, Review
-from property.serializers import PropertySerializer, CategorySerializer, MediaSerializer
+from property.serializers import PropertySerializer, CategorySerializer, MediaSerializer, ReviewSerializer
 from property.permissions import CanAddOrUpdateProperty, AdminOnlyActions
 
 
@@ -108,6 +108,34 @@ class MediaViewSet(ModelViewSet):
     def get_serializer_context(self):
         """
         Define media api context
+        :return:
+        """
+        return {'request': self.request, 'property_id': self.kwargs.get('property_pk')}
+
+
+class ReviewViewSet(ModelViewSet):
+    """
+    Create review view set for review model
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        """
+        Define review api queryset
+        :return:
+        """
+        return Review.objects.filter(property_id=self.kwargs.get('property_pk'))
+
+    def get_serializer_class(self):
+        """
+        Define review api serializer
+        :return:
+        """
+        return ReviewSerializer
+
+    def get_serializer_context(self):
+        """
+        Define review api context
         :return:
         """
         return {'request': self.request, 'property_id': self.kwargs.get('property_pk')}

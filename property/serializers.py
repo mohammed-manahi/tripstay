@@ -1,3 +1,4 @@
+from django.db.models.aggregates import Avg
 from rest_framework import serializers
 from property.models import Property, Category, Media, Feature, FeatureCategory, Review
 
@@ -21,6 +22,27 @@ class MediaSerializer(serializers.ModelSerializer):
         return Media.objects.create(property_id=property_id, **validated_data)
 
 
+class ReviewSerializer(serializers.ModelSerializer):
+    """
+    Create serializer for review model
+    """
+    # Get current authenticated user
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta():
+        model = Review
+        fields = ['comment', 'rate', 'user']
+
+    def create(self, validated_data):
+        """
+        Override create method to allow nested route for media in property api endpoint
+        :param validated_data:
+        :return:
+        """
+        property_id = self.context['property_id']
+        return Review.objects.create(property_id=property_id, **validated_data)
+
+
 class CategorySerializer(serializers.ModelSerializer):
     """
     Create serializer for category model
@@ -42,7 +64,7 @@ class PropertySerializer(serializers.ModelSerializer):
     """
     Create serializer for property model
     """
-    # Get current user as a hidden field
+    # Get current authenticated user
     owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     def validate(self, attrs):
@@ -60,7 +82,16 @@ class PropertySerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'description', 'slug', 'owner', 'category', 'address', 'location',
                   'number_of_bedrooms', 'number_of_beds', 'number_of_baths', 'capacity_for_adults',
                   'capacity_for_children', 'price_per_night', 'available', 'available_from', 'available_to',
-                  'media']
+                  'average_rate', 'media', 'reviews']
 
     # Display property media
     media = MediaSerializer(many=True, read_only=True)
+
+    # Display property reviews
+    reviews = ReviewSerializer(many=True, read_only=True)
+
+    # Custom field for average review rate
+    average_rate = serializers.SerializerMethodField(method_name='get_average_rate')
+
+    def get_average_rate(self, property):
+        return property.reviews.all().aggregate(Avg('rate'))
