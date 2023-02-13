@@ -31,7 +31,14 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta():
         model = Review
-        fields = ['comment', 'rate', 'user']
+        fields = ['id', 'comment', 'rate', 'user']
+
+    def validate(self, attrs):
+        property_id = self.context['property_id']
+        user = attrs['user']
+        if Review.objects.filter(property_id=property_id, user=user).exists():
+            raise serializers.ValidationError('You have already reviewed this property')
+        return attrs
 
     def create(self, validated_data):
         """
