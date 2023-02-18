@@ -39,8 +39,8 @@ class Property(models.Model):
     description = models.TextField(max_length=500)
     slug = models.SlugField(max_length=250, blank=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='properties')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='properties', max_length=500)
-    address = models.CharField(max_length=250)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='properties')
+    address = models.CharField(max_length=500)
     # Use third-party library location field for property location
     location = PlainLocationField(based_fields=['city'], zoom=7, max_length=250)
     number_of_bedrooms = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)])
