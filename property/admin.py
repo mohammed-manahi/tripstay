@@ -5,7 +5,7 @@ from property.models import Property, Media, Feature, FeatureCategory, Review, C
 @admin.register(Media)
 class PropertyMedia(admin.ModelAdmin):
     """
-    Add property media model as inline view for property model in admin site
+    Register property media model in admin site
     """
     list_display = ['name', 'property']
     list_filter = ['property']
