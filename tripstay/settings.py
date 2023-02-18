@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'property.apps.PropertyConfig',
     # Add third-party django filter to installed apps
     'django_filters',
+    # Add reservation app to installed apps
+    'reservation.apps.ReservationConfig'
 ]
 
 MIDDLEWARE = [
