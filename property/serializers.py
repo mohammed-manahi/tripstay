@@ -113,7 +113,7 @@ class PropertySerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'description', 'slug', 'owner', 'category', 'address', 'location',
                   'number_of_bedrooms', 'number_of_beds', 'number_of_baths', 'capacity_for_adults',
                   'capacity_for_children', 'price_per_night', 'available', 'available_from', 'available_to',
-                  'average_rate', 'media', 'reviews', 'features']
+                  'cancellation_policy', 'cancellation_fee_per_night', 'average_rate', 'media', 'reviews', 'features']
 
     # Display property media
     media = MediaSerializer(many=True, read_only=True)

@@ -35,6 +35,13 @@ class Property(models.Model):
     """
     Create property model
     """
+    # Define cancellation policy choices
+    FREE_CANCELLATION = 'Free Cancellation'
+    PAID_CANCELLATION = 'Paid Cancellation'
+    CANCELLATION_POLICY_CHOICES = [
+        (FREE_CANCELLATION, FREE_CANCELLATION),
+        (PAID_CANCELLATION, PAID_CANCELLATION)
+    ]
     name = models.CharField(max_length=250, blank=False)
     description = models.TextField(max_length=500)
     slug = models.SlugField(max_length=250, blank=True)
@@ -54,6 +61,9 @@ class Property(models.Model):
     available_to = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    cancellation_policy = models.CharField(max_length=50, choices=CANCELLATION_POLICY_CHOICES,
+                                           default=FREE_CANCELLATION)
+    cancellation_fee_per_night = models.DecimalField(max_digits=3, decimal_places=2, default=0)
 
     class Meta():
         # Define meta attributes
