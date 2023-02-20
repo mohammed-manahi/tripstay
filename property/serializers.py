@@ -127,6 +127,8 @@ class PropertySerializer(serializers.ModelSerializer):
     # Custom field for average review rate
     average_rate = serializers.SerializerMethodField(method_name='get_average_rate')
 
+    # Custom field for average review rate
+
     def get_average_rate(self, property):
         return property.reviews.all().aggregate(Avg('rate'))
 

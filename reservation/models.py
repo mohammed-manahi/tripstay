@@ -10,7 +10,8 @@ class Reservation(models.Model):
     property = models.OneToOneField(Property, on_delete=models.CASCADE, related_name='reservation')
     reservation_from = models.DateTimeField()
     reservation_to = models.DateTimeField()
-    guest = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reservation')
+    guest = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reservation')
+    reserved = models.BooleanField(default=False)
 
     class Meta():
         # Define meta attributes

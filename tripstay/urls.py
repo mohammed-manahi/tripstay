@@ -24,7 +24,9 @@ urlpatterns = [
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
     # Include property app url patterns
-    path('api/v1/', include('property.urls'))
+    path('api/v1/', include('reservation.urls')),
+    path('api/v1/', include('property.urls')),
+
 ]
 
 if settings.DEBUG:

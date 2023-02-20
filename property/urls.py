@@ -16,7 +16,7 @@ property_router.register('features', views.FeatureViewSet, basename='property-fe
 
 urlpatterns = [
     # Include view set routers
-    path('', include(router.urls)),
+    path('properties/', include(router.urls)),
     # Include view set nested routers
     path('', include(property_router.urls)),
 ]
