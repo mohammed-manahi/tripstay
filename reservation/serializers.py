@@ -1,3 +1,4 @@
+from _decimal import Decimal
 from datetime import datetime
 
 from rest_framework import serializers
@@ -20,15 +21,29 @@ class ReservationSerializer(serializers.ModelSerializer):
     class Meta():
         model = Reservation
         fields = ['id', 'guest', 'property', 'reservation_from', 'reservation_to', 'reserved',
-                  'reservation_in_nights']
+                  'reservation_in_nights', 'reservation_fees', 'total_fees']
 
     # Custom field for reservation duration in days
     reservation_in_nights = serializers.SerializerMethodField(method_name='get_reservation_in_nights')
 
+    # Custom field for reservation fee calculation
+    reservation_fees = serializers.SerializerMethodField(method_name='calculate_reservation_fees')
+
+    # Custom field for total fees
+    total_fees = serializers.SerializerMethodField(method_name='calculate_total_fees')
+
     def get_reservation_in_nights(self, reservation):
         start_date = reservation.reservation_from
         end_date = reservation.reservation_to
-        return abs((end_date-start_date).days)
+        return abs((end_date - start_date).days)
+
+    def calculate_reservation_fees(self, reservation):
+        reservation_fees = reservation.property.price_per_night * self.get_reservation_in_nights(reservation)
+        return reservation_fees
+
+    def calculate_total_fees(self, reservation):
+        service_fees = (Decimal(0.12) * self.calculate_reservation_fees(reservation))
+        return service_fees + self.calculate_reservation_fees(reservation)
 
 
 class CreateReservationSerializer(serializers.ModelSerializer):
@@ -56,7 +71,6 @@ class CreateReservationSerializer(serializers.ModelSerializer):
         if Reservation.objects.filter(property_id=attrs['property_id'], reserved=True).exists():
             raise serializers.ValidationError('This property is currently reserved')
         return attrs
-
 
     class Meta():
         model = Reservation
