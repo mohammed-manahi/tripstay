@@ -3,6 +3,7 @@ from property.models import Property
 from django.conf import settings
 
 
+
 class Reservation(models.Model):
     """
     Create property reservation model and associate it with property and user models

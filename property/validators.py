@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError
 
 
 def validate_image_size(file):
@@ -19,5 +20,5 @@ def validate_video_size(file):
     :return:
     """
     max_video_size_in_mb = 100
-    if file.size > (max_video_size_in_mb *1024 * 1024):
+    if file.size > (max_video_size_in_mb * 1024 * 1024):
         raise ValidationError(f'Video size can not be larger than {max_video_size_in_mb}')

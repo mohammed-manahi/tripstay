@@ -1,11 +1,8 @@
 from _decimal import Decimal
-from datetime import datetime
-
 from rest_framework import serializers
 from reservation.models import Reservation
 from property.models import Property
 from property.serializers import PropertySerializer
-from django.utils.timezone import now
 
 
 class ReservationSerializer(serializers.ModelSerializer):
@@ -56,6 +53,11 @@ class CreateReservationSerializer(serializers.ModelSerializer):
     reserved = serializers.HiddenField(default=False)
 
     def validate_property_id(self, property_id):
+        """
+        Validate property exists
+        :param property_id:
+        :return:
+        """
         if not Property.objects.filter(id=property_id).exists():
             raise serializers.ValidationError("No property with given id not found")
         return property_id
